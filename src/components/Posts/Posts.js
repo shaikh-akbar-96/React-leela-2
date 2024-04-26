@@ -3,6 +3,7 @@ import Post from "../Post/Post";
 import axios from "axios";
 import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
 import FunctionalSinglePostDetails from "../FunctionalSinglePostDetails/FunctionalSinglePostDetails";
+import AddPost from "../AddPost/AddPost";
 
 export default class Posts extends Component {
   constructor(props) {
@@ -10,10 +11,18 @@ export default class Posts extends Component {
     this.state = {
       posts: [],
       selectedPostId: null,
+      isAddPost: false,
     };
   }
 
   componentDidMount() {
+    this.getPost();
+  }
+
+  getPost = () => {
+    this.setState({
+      isAddPost: false,
+    });
     axios
       .get(`https://react-leela-2-default-rtdb.firebaseio.com/post.json`)
       .then((response) => {
@@ -26,7 +35,7 @@ export default class Posts extends Component {
           posts: posts,
         });
       });
-  }
+  };
 
   postClickedHandler = (id) => {
     console.log(id, "id");
@@ -34,13 +43,29 @@ export default class Posts extends Component {
       selectedPostId: id,
     });
   };
+
+  addPostHandler = () => {
+    this.setState({
+      isAddPost: true,
+    });
+  };
   render() {
     return (
       <div>
         <div className="flex">
-          <div className="w-3/4">
-            <h2 className="font-bold">Posts Data</h2>
-            <div className="flex">
+          <div className="w-3/4 mr-4">
+            <div className="flex my-4 items-center justify-between">
+              <h2 className="font-bold">Posts Data</h2>
+              <a
+                href="#"
+                onClick={this.addPostHandler}
+                className="bg-blue-600 px-2 py-1 text-white"
+              >
+                Create Post
+              </a>
+            </div>
+
+            <div className="flex flex-wrap">
               {this.state.posts.map((post) => {
                 return (
                   <Post
@@ -60,6 +85,11 @@ export default class Posts extends Component {
             </div>
           )}
         </div>
+        {this.state.isAddPost && (
+          <div className="my-4">
+            <AddPost onPostAdded={this.getPost} />
+          </div>
+        )}
       </div>
     );
   }
