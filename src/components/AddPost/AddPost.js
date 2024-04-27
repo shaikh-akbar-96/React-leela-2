@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useState } from "react";
 
 export default function AddPost(props) {
@@ -13,14 +13,9 @@ export default function AddPost(props) {
       title,
       description,
     };
-    axios
-      .post(
-        `https://react-leela-2-default-rtdb.firebaseio.com/post.json`,
-        postData
-      )
-      .then((response) => {
-        props.onPostAdded();
-      });
+    axios.post(`post.json`, postData).then((response) => {
+      props.onPostAdded();
+    });
   }
   return (
     <div>

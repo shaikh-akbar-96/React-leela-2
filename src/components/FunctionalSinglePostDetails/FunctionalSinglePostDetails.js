@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useEffect, useState } from "react";
 
 export default function FunctionalSinglePostDetails(props) {
@@ -11,13 +11,9 @@ export default function FunctionalSinglePostDetails(props) {
     getPostDetails();
   });
   function getPostDetails() {
-    axios
-      .get(
-        `https://react-leela-2-default-rtdb.firebaseio.com/post/${props.id}.json`
-      )
-      .then((response) => {
-        setPost({ ...response.data, id: props.id });
-      });
+    axios.get(`post/${props.id}.json`).then((response) => {
+      setPost({ ...response.data, id: props.id });
+    });
   }
   if (post) {
     return (

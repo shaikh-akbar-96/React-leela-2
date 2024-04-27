@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { Component } from "react";
 
 export default class SinglePostDetails extends Component {
@@ -21,15 +21,11 @@ export default class SinglePostDetails extends Component {
   }
 
   getPostDetails = () => {
-    axios
-      .get(
-        `https://react-leela-2-default-rtdb.firebaseio.com/post/${this.props.id}.json`
-      )
-      .then((response) => {
-        this.setState({
-          post: { ...response.data, id: this.props.id },
-        });
+    axios.get(`post/${this.props.id}.json`).then((response) => {
+      this.setState({
+        post: { ...response.data, id: this.props.id },
       });
+    });
   };
 
   render() {

@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Post from "../Post/Post";
-import axios from "axios";
-import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
+import axios from "../../axiosInstance";
+// import SinglePostDetails from "../SinglePostDetails/SinglePostDetails";
 import FunctionalSinglePostDetails from "../FunctionalSinglePostDetails/FunctionalSinglePostDetails";
 import AddPost from "../AddPost/AddPost";
 
@@ -23,18 +23,16 @@ export default class Posts extends Component {
     this.setState({
       isAddPost: false,
     });
-    axios
-      .get(`https://react-leela-2-default-rtdb.firebaseio.com/post.json`)
-      .then((response) => {
-        const posts = [];
-        for (let key in response.data) {
-          posts.push({ ...response.data[key], id: key });
-        }
-        console.log(posts);
-        this.setState({
-          posts: posts,
-        });
+    axios.get(`post.json`).then((response) => {
+      const posts = [];
+      for (let key in response.data) {
+        posts.push({ ...response.data[key], id: key });
+      }
+      console.log(posts);
+      this.setState({
+        posts: posts,
       });
+    });
   };
 
   postClickedHandler = (id) => {
@@ -53,13 +51,9 @@ export default class Posts extends Component {
   postDeletedHandler = (id, e) => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete the post")) {
-      axios
-        .delete(
-          `https://react-leela-2-default-rtdb.firebaseio.com/post/${id}.json`
-        )
-        .then((response) => {
-          this.getPost();
-        });
+      axios.delete(`/post/${id}.json`).then((response) => {
+        this.getPost();
+      });
     }
   };
   render() {
