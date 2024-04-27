@@ -49,6 +49,19 @@ export default class Posts extends Component {
       isAddPost: true,
     });
   };
+
+  postDeletedHandler = (id, e) => {
+    e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete the post")) {
+      axios
+        .delete(
+          `https://react-leela-2-default-rtdb.firebaseio.com/post/${id}.json`
+        )
+        .then((response) => {
+          this.getPost();
+        });
+    }
+  };
   render() {
     return (
       <div>
@@ -59,7 +72,7 @@ export default class Posts extends Component {
               <a
                 href="#"
                 onClick={this.addPostHandler}
-                className="bg-blue-600 px-2 py-1 text-white"
+                className="bg-blue-600 px-1 py-1 text-white"
               >
                 Create Post
               </a>
@@ -72,6 +85,7 @@ export default class Posts extends Component {
                     key={post.id}
                     post={post}
                     postClicked={this.postClickedHandler.bind(this, post.id)}
+                    postDeleted={this.postDeletedHandler.bind(this, post.id)}
                   />
                 );
               })}

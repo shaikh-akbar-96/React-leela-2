@@ -8,6 +8,14 @@ export default function Post(props) {
       <div>Id:{props.post.id}</div>
       <div>Title:{props.post.title}</div>
       <div>Description:{props.post.description}</div>
+      <div className="text-right">
+        <button
+          className="bg-red-400 text-white px-2 py-1 mt-2"
+          onClick={props.postDeleted}
+        >
+          Delete
+        </button>
+      </div>
     </a>
   );
 }
